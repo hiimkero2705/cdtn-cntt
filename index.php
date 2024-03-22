@@ -86,11 +86,11 @@ if (isset($_SESSION['loggedin_customer'])) {
                 </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
                         <?php 
                         if (isset($_SESSION['loggedin_customer']) && $_SESSION['loggedin_customer'] === true) {
                             echo '<a href="./login.php"><span class="icon_profile"></span>' . $info['TenKH'] . '</a>
-                            <a href="./confirm-logout.php"><span class="fa fa-sign-out"></span></a>';
+                            <a href="./confirm-logout.php"><span class="fa fa-sign-out"></span></a>
+                            <a href="#"><span class="fa fa-history"></span></a>';
                         } else {
                             echo '<a href="./login.php"><span class="icon_profile"></span></a>';
                         } ?>
@@ -146,7 +146,7 @@ if (isset($_SESSION['loggedin_customer'])) {
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4">
                                 <div class="btn__all">
-                                    <a href="#" class="primary-btn">XEM TẤT CẢ <span class="arrow_right"></span></a>
+                                    <a href="./categories.php" class="primary-btn">XEM TẤT CẢ <span class="arrow_right"></span></a>
                                 </div>
                             </div>
                         </div>
@@ -157,7 +157,7 @@ if (isset($_SESSION['loggedin_customer'])) {
                                 $TenPhim = $row_phim["TenPhim"];
                                 $TheLoai = $row_phim["TenTheLoai"];
                                 $Dotuoi = $row_phim["IDDotuoi"];
-                                $Image = $row_phim["Poster"];
+                                $Image = $row_phim["HinhAnh"];
                                 if ($Dotuoi == 'DT001') {
                                     $Dotuoigioihan = '<div class="ep">18+</div>';
                                 } else if ($Dotuoi == 'DT002') {

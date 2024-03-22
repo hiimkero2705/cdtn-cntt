@@ -23,14 +23,39 @@ if (isset($_GET['idPhim'])) {
         $moTa = $_POST['moTa'];
         $posterPhim = $_FILES['posterPhim']['name'];
         $doTuoi = $_POST['doTuoi'];
+        $banner = $_FILES['bannerPhim']['name'];
+        $trailer = $_FILES['trailerPhim']['name'];
 
         // Upload poster phim vào thư mục trên server
-        $target_dir = "../img/phim/";
-        $target_file = $target_dir . basename($_FILES["posterPhim"]["name"]);
-        move_uploaded_file($_FILES["posterPhim"]["tmp_name"], $target_file);
+        if ($_FILES['posterPhim']['name'] != '') {
+            $posterPhim = $_FILES['posterPhim']['name'];
+            $target_dir = "../img/phim/";
+            $target_file = $target_dir . basename($_FILES["posterPhim"]["name"]);
+            move_uploaded_file($_FILES["posterPhim"]["tmp_name"], $target_file);
+        } else {
+            $posterPhim = $row_phim['Poster'];
+        }
 
+
+        if ($_FILES['bannerPhim']['name'] != '') {
+            $banner = $_FILES['bannerPhim']['name'];
+            $target_dir2 = "../img/banner/";
+            $target_file2 = $target_dir2 . basename($_FILES["bannerPhim"]["name"]);
+            move_uploaded_file($_FILES["bannerPhim"]["tmp_name"], $target_file2);
+        } else {
+            $banner = $row_phim['Banner'];
+        }
+
+        if ($_FILES['trailerPhim']['name'] != '') {
+            $trailer = $_FILES['trailerPhim']['name'];
+            $target_dir1 = "../videos/";
+            $target_file1 = $target_dir1 . basename($_FILES["trailerPhim"]["name"]);
+            move_uploaded_file($_FILES["trailerPhim"]["tmp_name"], $target_file1);
+        } else {
+            $trailer = $row_phim['Trailer'];
+        }
         // Cập nhật dữ liệu vào cơ sở dữ liệu
-        $sql_update = "UPDATE Phim SET TenPhim='$tenPhim', DaoDien='$daoDien', DienVien='$dienVien', IDTheLoai='$theLoai', ThoiLuong='$thoiLuong', MoTa='$moTa', Poster='$posterPhim', IDDotuoi='$doTuoi' WHERE IDPhim='$idPhim'";
+        $sql_update = "UPDATE Phim SET TenPhim='$tenPhim', DaoDien='$daoDien', DienVien='$dienVien', IDTheLoai='$theLoai', ThoiLuong='$thoiLuong', MoTa='$moTa', HinhAnh='$posterPhim', IDDotuoi='$doTuoi', Banner='$banner', Trailer='$trailer' WHERE IDPhim='$idPhim'";
         $result_update = mysqli_query($conn, $sql_update);
         if ($result_update) {
             $msg = '<div class="alert alert-success" role="alert">
@@ -254,11 +279,6 @@ if (isset($_GET['idPhim'])) {
                             echo $msg; ?>
                         <form method="post" enctype="multipart/form-data">
                             <div class="mb-3">
-                                <label for="idPhim" class="form-label">IDPhim</label>
-                                <input type="idPhim" class="form-control" name="idPhim" aria-describedby="idPhim"
-                                    value="<?php echo $row_phim['IDPhim'] ?>">
-                            </div>
-                            <div class="mb-3">
                                 <label for="tenPhim" class="form-label">Tên Phim</label>
                                 <input type="tenPhim" class="form-control" name="tenPhim"
                                     value="<?php echo $row_phim['TenPhim'] ?>">
@@ -311,7 +331,7 @@ if (isset($_GET['idPhim'])) {
                                     onchange="previewImage(this)">
                                 <img id="preview" src="#" alt="Preview Image"
                                     style="display: none; max-width: 200px; max-height: 200px;">
-                                    <div id="previewText" style="display: none;">Xem trước hình ảnh trước khi thay đổi</div>
+                                <div id="previewText" style="display: none;">Xem trước hình ảnh trước khi thay đổi</div>
                             </div>
 
                             <script>
@@ -337,8 +357,65 @@ if (isset($_GET['idPhim'])) {
                             <div class="mb-3">
                                 <label for="posterPreview" class="form-label">Xem trước Poster Phim</label>
                                 <br>
-                                <img src="../img/phim/<?php echo $row_phim['Poster']; ?>" alt="Poster Phim" width="150">
+                                <img src="../img/phim/<?php echo $row_phim['HinhAnh']; ?>" alt="Poster Phim" width="150">
                             </div>
+
+                            <div class="mb-3">
+                                <label for="posterPhim" class="form-label">Hình ảnh Banner Phim</label>
+                                <input class="form-control bg-dark" type="file" id="bannerPhim" name="bannerPhim"
+                                    onchange="previewImage1(this)">
+                                <img id="preview1" src="#" alt="Preview Image"
+                                    style="display: none; max-width: 200px; max-height: 200px;">
+                                <div id="previewText" style="display: none;">Xem trước hình ảnh trước khi thay đổi</div>
+                            </div>
+
+                            <script>
+                                function previewImage1(input) {
+                                    var preview = document.getElementById('preview1');
+                                    var previewText = document.getElementById('previewText');
+
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            preview.src = e.target.result;
+                                            preview.style.display = 'block';
+                                            previewText.style.display = 'none'; // Ẩn dòng chữ khi hình ảnh đã được chọn
+
+                                        }
+
+                                        reader.readAsDataURL(input.files[0]); // Convert to base64 string
+                                    }
+                                }
+                            </script>
+
+                            <div class="mb-3">
+                                <label for="posterPreview" class="form-label">Xem trước Banner Phim</label>
+                                <br>
+                                <img src="../img/banner/<?php echo $row_phim['Banner']; ?>" alt="Banner Phim"
+                                    width="150">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="posterPhim" class="form-label">Trailer Phim</label>
+                                <input class="form-control bg-dark" type="file" id="trailerPhim" name="trailerPhim"
+                                    onchange="previewImage2(this)">
+                            </div>
+
+                            <script>
+                                function previewImage2(input) {
+                                    if (input.files && input.files[0]) {
+                                        var reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            preview.src = e.target.result;
+                                            preview.style.display = 'block';
+                                            previewText.style.display = 'none'; // Ẩn dòng chữ khi hình ảnh đã được chọn
+                                        }
+                                        reader.readAsDataURL(input.files[0]); // Convert to base64 string
+                                    }
+                                }
+                            </script>
 
                             <div class="mb-3">
                                 <label for="theLoai" class="form-label">Độ Tuổi</label>
@@ -364,7 +441,8 @@ if (isset($_GET['idPhim'])) {
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-warning m-2" name="update">Sửa Phim</button>
-                            <button type="button" class="btn btn-danger m-2" onclick="history.back()" name="update">Hủy</button>
+                            <button type="button" class="btn btn-danger m-2" onclick="history.back()"
+                                name="update">Hủy</button>
                         </form>
                     </div>
                 </div>

@@ -79,8 +79,8 @@
             <div class="row">
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
-                        <h2>ĐĂNG KÝ</h2>
-                        <p>ALL ROADS LEAD TO ME.</p>
+                        <h2>QUẢN LÝ THÔNG TIN</h2>
+                        <p>WE DONT NEED MOTIVATION, WE NEED SPIRIT.</p>
                     </div>
                 </div>
             </div>
@@ -98,66 +98,42 @@
                 <div class="login__form">
                     <form>
                         <div class="input__item">
-                            <input type="text" placeholder="Địa chỉ email" name="email" required>
+                            <input type="text" placeholder="Địa chỉ email" name="email">
                             <span class="icon_mail"></span>
                         </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Họ và tên" name="name">
+                            <span class="icon_profile"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Số điện thoại" name="phone">
+                            <span class="icon_phone"></span>
+                        </div>
+                        <button type="button" class="btn btn-success">Lưu</button>
                     </form>
-                </div>
-                <div class="anime__review__item">
-                    <div class="anime__review__item__pic">
-                        <img src="img/anime/review-2.jpg" alt="">
-                    </div>
-                    <div class="anime__review__item__text">
-                        <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                        <p>Finally it came out ages ago</p>
-                    </div>
-                </div>
-                <div class="anime__review__item">
-                    <div class="anime__review__item__pic">
-                        <img src="img/anime/review-3.jpg" alt="">
-                    </div>
-                    <div class="anime__review__item__text">
-                        <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                        <p>Where is the episode 15 ? Slow update! Tch</p>
-                    </div>
-                </div>
-                <div class="anime__review__item">
-                    <div class="anime__review__item__pic">
-                        <img src="img/anime/review-4.jpg" alt="">
-                    </div>
-                    <div class="anime__review__item__text">
-                        <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                        <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                            "demons" LOL</p>
-                    </div>
-                </div>
-                <div class="anime__review__item">
-                    <div class="anime__review__item__pic">
-                        <img src="img/anime/review-5.jpg" alt="">
-                    </div>
-                    <div class="anime__review__item__text">
-                        <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                        <p>Finally it came out ages ago</p>
-                    </div>
-                </div>
-                <div class="anime__review__item">
-                    <div class="anime__review__item__pic">
-                        <img src="img/anime/review-6.jpg" alt="">
-                    </div>
-                    <div class="anime__review__item__text">
-                        <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                        <p>Where is the episode 15 ? Slow update! Tch</p>
-                    </div>
                 </div>
             </div>
             <div class="anime__details__form">
                 <div class="section-title">
-                    <h5>Your Comment</h5>
+                    <h5>Đổi mật khẩu</h5>
                 </div>
-                <form action="#">
-                    <textarea placeholder="Your Comment"></textarea>
-                    <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
-                </form>
+                <div class="login__form">
+                    <form action="#">
+                        <div class="input__item">
+                            <input type="text" placeholder="Mật khẩu cũ" name="oldpassword">
+                            <span class="icon_lock"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Họ và tên" name="name">
+                            <span class="icon_profile"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Số điện thoại" name="phone">
+                            <span class="icon_phone"></span>
+                        </div>
+                        <button type="submit">Đổi mật khẩu</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

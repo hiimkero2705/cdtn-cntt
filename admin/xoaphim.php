@@ -22,6 +22,7 @@ if (isset($_GET['idPhim'])) {
         $thoiLuong = $_POST['thoiLuong'];
         $moTa = $_POST['moTa'];
         $doTuoi = $_POST['doTuoi'];
+        $banner = $_POST['Banner'];
 
         // Upload poster phim vào thư mục trên server
 
@@ -248,26 +249,27 @@ if (isset($_GET['idPhim'])) {
                             <div class="mb-3">
                                 <label for="idPhim" class="form-label">IDPhim</label>
                                 <input type="idPhim" class="form-control" name="idPhim" aria-describedby="idPhim"
-                                    value="<?php echo $row_phim['IDPhim'] ?>">
+                                    value="<?php echo $row_phim['IDPhim'] ?>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="tenPhim" class="form-label">Tên Phim</label>
                                 <input type="tenPhim" class="form-control" name="tenPhim"
-                                    value="<?php echo $row_phim['TenPhim'] ?>">
+                                    value="<?php echo $row_phim['TenPhim'] ?>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="daoDien" class="form-label">Đạo Diễn</label>
                                 <input type="daoDien" class="form-control" name="daoDien"
-                                    value="<?php echo $row_phim['DaoDien'] ?>">
+                                    value="<?php echo $row_phim['DaoDien'] ?>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="dienVien" class="form-label">Diễn Viên</label>
                                 <input type="dienVien" class="form-control" name="dienVien"
-                                    value="<?php echo $row_phim['DienVien'] ?>">
+                                    value="<?php echo $row_phim['DienVien'] ?>" disabled>
                             </div>
                             <div class="mb-3">
                                 <label for="theLoai" class="form-label">Thể Loại</label>
-                                <select class="form-select mb-3" name="theLoai" aria-label="Default select example">
+                                <select class="form-select mb-3" name="theLoai" aria-label="Default select example"
+                                    disabled>
                                     <option value="<?php echo $row_phim['IDTheLoai'] ?>">
                                         <?php echo $row_phim['TenTheLoai']; ?>
                                     </option>
@@ -290,112 +292,97 @@ if (isset($_GET['idPhim'])) {
                             <div class="mb-3">
                                 <label for="thoiLuong" class="form-label">Thời Lượng</label>
                                 <input type="thoiLuong" class="form-control" name="thoiLuong"
-                                    value="<?php echo $row_phim['ThoiLuong'] ?>">
+                                    value="<?php echo $row_phim['ThoiLuong'] ?>" disabled>
                             </div>
                             <div class="form-floating">
-                                <textarea class="form-control" placeholder="Mô tả" name="moTa"
-                                    style="height: 150px;"><?php echo $row_phim['MoTa']; ?></textarea>
+                                <textarea class="form-control" placeholder="Mô tả" name="moTa" style="height: 150px;"
+                                    disabled><?php echo $row_phim['MoTa']; ?></textarea>
                                 <label for="floatingTextarea">Mô tả</label>
                             </div>
                             <div class="mb-3"></div>
-                            <img id="preview" src="#" alt="Preview Image"
-                                style="display: none; max-width: 200px; max-height: 200px;">
+                        
+                            <div class="mb-3">
+                                <label for="posterPreview" class="form-label">Xem trước Poster Phim</label>
+                                <br>
+                                <img src="../img/phim/<?php echo $row_phim['HinhAnh']; ?>" alt="Poster Phim" width="150">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="posterPreview" class="form-label">Xem trước Banner Phim</label>
+                                <br>
+                                <img src="../img/banner/<?php echo $row_phim['Banner']; ?>" alt="Banner Phim" width="150">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="theLoai" class="form-label">Độ Tuổi</label>
+                                <select class="form-select mb-3" name="doTuoi" aria-label="Default select example"
+                                    disabled>
+                                    <option value="<?php echo $row_phim['IDDotuoi'] ?>">
+                                        <?php echo $row_phim['Dotuoi']; ?>
+                                    </option>
+                                    <?php
+                                    $selectedID = $row_phim['IDDotuoi']; // ID của thể loại phim đã được chọn từ cơ sở dữ liệu
+                                    $sql_do_tuoi = "SELECT * FROM danhmucdotuoi";
+                                    $result_do_tuoi = mysqli_query($conn, $sql_do_tuoi);
+
+                                    while ($row = mysqli_fetch_assoc($result_do_tuoi)) {
+                                        $optionID = $row['IDDotuoi'];
+                                        $optionName = $row['Dotuoi'];
+
+                                        // Kiểm tra nếu ID tùy chọn trùng khớp với ID của thể loại phim đã được chọn từ cơ sở dữ liệu
+                                        if ($optionID != $selectedID) {
+                                            echo '<option value="' . $optionID . '">' . $optionName . '</option>';
+                                        }
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-warning m-2" name="update">Xóa</button>
+                            <button type="button" class="btn btn-danger m-2" onclick="history.back()"
+                                name="update">Hủy</button>
+                        </form>
                     </div>
-
-                    <script>
-                        function previewImage(input) {
-                            var preview = document.getElementById('preview');
-                            var previewText = document.getElementById('previewText');
-
-                            if (input.files && input.files[0]) {
-                                var reader = new FileReader();
-
-                                reader.onload = function (e) {
-                                    preview.src = e.target.result;
-                                    preview.style.display = 'block';
-                                    previewText.style.display = 'none'; // Ẩn dòng chữ khi hình ảnh đã được chọn
-
-                                }
-
-                                reader.readAsDataURL(input.files[0]); // Convert to base64 string
-                            }
-                        }
-                    </script>
-
-                    <div class="mb-3">
-                        <label for="posterPreview" class="form-label">Xem trước Poster Phim</label>
-                        <br>
-                        <img src="../img/phim/<?php echo $row_phim['Poster']; ?>" alt="Poster Phim" width="150">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="theLoai" class="form-label">Độ Tuổi</label>
-                        <select class="form-select mb-3" name="doTuoi" aria-label="Default select example">
-                            <option value="<?php echo $row_phim['IDDotuoi'] ?>">
-                                <?php echo $row_phim['Dotuoi']; ?>
-                            </option>
-                            <?php
-                            $selectedID = $row_phim['IDDotuoi']; // ID của thể loại phim đã được chọn từ cơ sở dữ liệu
-                            $sql_do_tuoi = "SELECT * FROM danhmucdotuoi";
-                            $result_do_tuoi = mysqli_query($conn, $sql_do_tuoi);
-
-                            while ($row = mysqli_fetch_assoc($result_do_tuoi)) {
-                                $optionID = $row['IDDotuoi'];
-                                $optionName = $row['Dotuoi'];
-
-                                // Kiểm tra nếu ID tùy chọn trùng khớp với ID của thể loại phim đã được chọn từ cơ sở dữ liệu
-                                if ($optionID != $selectedID) {
-                                    echo '<option value="' . $optionID . '">' . $optionName . '</option>';
-                                }
-                            }
-                            ?>
-                        </select>
-                    </div>
-                        <button type="submit" class="btn btn-warning m-2" name="update">Xóa</button>
-                        <button type="button" class="btn btn-danger m-2" onclick="history.back()" name="update">Hủy</button>
-                    </form>
                 </div>
-            </div>
-            <!-- Blank End -->
+                <!-- Blank End -->
 
 
-            <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-secondary rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                            <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                <!-- Footer Start -->
+                <div class="container-fluid pt-4 px-4">
+                    <div class="bg-secondary rounded-top p-4">
+                        <div class="row">
+                            <div class="col-12 col-sm-6 text-center text-sm-start">
+                                &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                            </div>
+                            <div class="col-12 col-sm-6 text-center text-sm-end">
+                                <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+                                Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                                <br>Distributed By: <a href="https://themewagon.com" target="_blank">ThemeWagon</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- Footer End -->
             </div>
-            <!-- Footer End -->
+            <!-- Content End -->
+
+
+            <!-- Back to Top -->
+            <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
         </div>
-        <!-- Content End -->
 
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/chart/chart.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/tempusdominus/js/moment.min.js"></script>
+        <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
+        <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
 
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-    </div>
-
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/chart/chart.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="lib/tempusdominus/js/moment.min.js"></script>
-    <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
 </body>
 
 </html>

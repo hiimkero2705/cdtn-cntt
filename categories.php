@@ -10,7 +10,12 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
     $phim_array[] = $row_phim;
 }
 
-
+if (isset($_SESSION['loggedin_customer'])) {
+    $sql = "SELECT * FROM khachhang WHERE IDKH = '" . $_SESSION['IDKH'] . "'";
+    $result = mysqli_query($conn, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        $info = mysqli_fetch_assoc($result);
+    }}
 ?>
 
 <!DOCTYPE html>
@@ -53,7 +58,7 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
                 <div class="col-lg-2">
                     <div class="header__logo">
                         <a href="./index.php">
-                            <img src="img/logo.png" alt="">
+                            <img src="./img/logo.png" alt="">
                         </a>
                     </div>
                 </div>
@@ -61,8 +66,8 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.php">Trang chủ</a></li>
-                                <li><a href="./categories.php">Góc Điện Ảnh <span class="arrow_carrot-down"></span></a>
+                                <li><a href="./index.php">Trang chủ</a></li>
+                                <li class="active"><a href="./categories.php">Góc Điện Ảnh <span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="./categories.php">Đang công chiếu</a></li>
                                         <li><a href="./anime-watching.php">Anime Watching</a></li>
@@ -76,11 +81,16 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
                         </nav>
                     </div>
                 </div>
-                </div>
                 <div class="col-lg-2">
                     <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./login.php"><span class="icon_profile"></span></a>
+                        <?php 
+                        if (isset($_SESSION['loggedin_customer']) && $_SESSION['loggedin_customer'] === true) {
+                            echo '<a href="./login.php"><span class="icon_profile"></span>' . $info['TenKH'] . '</a>
+                            <a href="./confirm-logout.php"><span class="fa fa-sign-out"></span></a>
+                            <a href="#"><span class="fa fa-history"></span></a>';
+                        } else {
+                            echo '<a href="./login.php"><span class="icon_profile"></span></a>';
+                        } ?>
                     </div>
                 </div>
             </div>
@@ -137,10 +147,22 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
                                 $TenPhim = $row_phim["TenPhim"];
                                 $TheLoai = $row_phim["TenTheLoai"];
                                 $MoTa = $row_phim["MoTa"];
+                                $Poster = $row_phim["HinhAnh"];
+                                $Dotuoi = $row_phim["IDDotuoi"];
                                 $MoTaShort = strlen($MoTa) > 50 ? substr($MoTa, 0, 50) . '...' : $MoTa;
+                                if ($Dotuoi == 'DT001') {
+                                    $Dotuoigioihan = '<div class="ep">18+</div>';
+                                } else if ($Dotuoi == 'DT002') {
+                                    $Dotuoigioihan = '<div class="ep1">ALL</div>';
+                                } else if ($Dotuoi == 'DT003') {
+                                    $Dotuoigioihan = '<div class="ep2">16+</div>';
+                                } else {
+                                    $Dotuoigioihan = '<div class="ep3">12+</div>';
+                                }
                                 echo '<div class="col-lg-4 col-md-6 col-sm-6">
                                 <div class="product__item">
-                                    <div class="product__item__pic set-bg" data-setbg="img/popular/popular-1.jpg">
+                                    <div class="product__item__pic set-bg" data-setbg="img/phim/'.$Poster.'">
+                                    ' . $Dotuoigioihan . '
                                         <div class="comment"><i class="fa fa-comments"></i> 11</div>
                                         <div class="view"><i class="fa fa-eye"></i> 9141</div>
                                     </div>

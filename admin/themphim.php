@@ -19,8 +19,8 @@ while ($row = mysqli_fetch_assoc($result_the_loai)) {
 }
 
 
+
 if (isset($_POST['submit'])) {
-    $idPhim = $_POST['idPhim'];
     $tenPhim = $_POST['tenPhim'];
     $daoDien = $_POST['daoDien'];
     $dienVien = $_POST['dienVien'];
@@ -29,15 +29,33 @@ if (isset($_POST['submit'])) {
     $moTa = $_POST['moTa'];
     $posterPhim = $_FILES['posterPhim']['name'];
     $doTuoi = $_POST['doTuoi'];
+    $banner = $_FILES['bannerPhim']['name'];
+    $trailer = $_FILES['trailerPhim']['name'];
+
+    // Tạo mã phim tự động
+    $sql_ma_phim = "SELECT MAX(CAST(SUBSTRING(IDPhim,  5) AS SIGNED)) AS max_IDPhim FROM Phim WHERE IDPhim LIKE 'PHIM00%' AND CAST(SUBSTRING(IDPhim,  5) AS SIGNED) > 7;";
+    $result_max_IDPhim = $conn->query($sql_ma_phim);
+    $row1 = $result_max_IDPhim->fetch_assoc();
+    $max_IDPhim = $row1["max_IDPhim"]; //Tìm mã khách hàng lớn nhất
+    $next_IDPhim = "PHIM" . str_pad($max_IDPhim + 1, 3, '0', STR_PAD_LEFT);
+
 
     // Upload poster phim vào thư mục trên server
     $target_dir = "../img/phim/";
     $target_file = $target_dir . basename($_FILES["posterPhim"]["name"]);
     move_uploaded_file($_FILES["posterPhim"]["tmp_name"], $target_file);
 
+    $target_dir1 = "../videos/";
+    $target_file1 = $target_dir1 . basename($_FILES["trailerPhim"]["name"]);
+    move_uploaded_file($_FILES["trailerPhim"]["tmp_name"], $target_file1);
+
+    $target_dir2 = "../img/banner/";
+    $target_file2 = $target_dir2 . basename($_FILES["bannerPhim"]["name"]);
+    move_uploaded_file($_FILES["bannerPhim"]["tmp_name"], $target_file2);
+
     // Thêm dữ liệu vào cơ sở dữ liệu
-    $sql = "INSERT INTO Phim (IDPhim, TenPhim, DaoDien, DienVien, IDTheLoai, ThoiLuong, MoTa, Poster, IDDotuoi) 
-            VALUES ('$idPhim', '$tenPhim', '$daoDien', '$dienVien', '$theLoai', '$thoiLuong', '$moTa', '$posterPhim', '$doTuoi')";
+    $sql = "INSERT INTO Phim (IDPhim, TenPhim, DaoDien, DienVien, IDTheLoai, ThoiLuong, MoTa, HinhAnh, IDDotuoi, Banner, Trailer) 
+            VALUES ('$next_IDPhim', '$tenPhim', '$daoDien', '$dienVien', '$theLoai', '$thoiLuong', '$moTa', '$posterPhim', '$doTuoi', '$banner', '$trailer')";
 
     if (mysqli_query($conn, $sql)) {
         $msg = '<div class="alert alert-success" role="alert">
@@ -260,10 +278,6 @@ if (isset($_POST['submit'])) {
                             echo $msg; ?>
                         <form method="post" enctype="multipart/form-data">
                             <div class="mb-3">
-                                <label for="idPhim" class="form-label">IDPhim</label>
-                                <input type="idPhim" class="form-control" name="idPhim" aria-describedby="idPhim">
-                            </div>
-                            <div class="mb-3">
                                 <label for="tenPhim" class="form-label">Tên Phim</label>
                                 <input type="tenPhim" class="form-control" name="tenPhim">
                             </div>
@@ -317,10 +331,40 @@ if (isset($_POST['submit'])) {
                                 </script>
                             </div>
                             <div class="mb-3">
+                                <label for="formFile" class="form-label">Banner Phim</label>
+                                <input class="form-control bg-dark" type="file" name="bannerPhim"
+                                    onchange="previewImage1(this)">
+                                <img id="preview1" src="#" alt="Preview Image"
+                                    style="display: none; max-width: 200px; max-height: 200px;">
+                                <script>
+                                    function previewImage1(input) {
+                                        var preview = document.getElementById('preview1');
+                                        var previewText = document.getElementById('previewText');
+
+                                        if (input.files && input.files[0]) {
+                                            var reader = new FileReader();
+
+                                            reader.onload = function (e) {
+                                                preview.src = e.target.result;
+                                                preview.style.display = 'block';
+                                                previewText.style.display = 'none'; // Ẩn dòng chữ khi hình ảnh đã được chọn
+
+                                            }
+
+                                            reader.readAsDataURL(input.files[0]); // Convert to base64 string
+                                        }
+                                    }
+                                </script>
+                            </div>
+                            <div class="mb-3">
                                 <label for="theLoai" class="form-label">Độ Tuổi</label>
                                 <select class="form-select mb-3" name="doTuoi" aria-label="Default select example">
                                     <?php echo $dotuoioption; ?>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="theLoai" class="form-label">Trailer</label>
+                                <input class="form-control bg-dark" type="file" name="trailerPhim">
                             </div>
                             <button type="submit" class="btn btn-success m-2" name="submit">Thêm Phim</button>
                             <button type="button" class="btn btn-danger m-2" onclick="history.back()"

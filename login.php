@@ -74,7 +74,7 @@ if (isset($_POST['submit-login'])) {
             <div class="row">
                 <div class="col-lg-2">
                     <div class="header__logo">
-                        <a href="./index.html">
+                        <a href="./index.php">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
@@ -141,12 +141,12 @@ if (isset($_POST['submit-login'])) {
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Mật khẩu" name="input_password" required>
+                                <input type="password" placeholder="Mật khẩu" name="input_password" required>
                                 <span class="icon_lock"></span>
                             </div>
                             <button type="submit" name="submit-login" class="site-btn">ĐĂNG NHẬP</button>
                         </form>
-                        <a href="#" class="forget_pass">Forgot Your Password?</a>
+                        <a href="#" class="forget_pass">Bạn quên mật khẩu?</a>
                     </div>
                 </div>
                 <div class="col-lg-6">

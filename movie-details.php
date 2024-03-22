@@ -6,18 +6,21 @@ if (isset($_GET['IDPhim'])) {
     $IDPhim = $_GET['IDPhim'];
 
 $sql_phim = "SELECT * FROM Phim JOIN danhmuctheloai ON Phim.IDTheLoai = danhmuctheloai.IDTheLoai
+                                JOIN danhmucdotuoi ON Phim.IDDotuoi = danhmucdotuoi.IDDotuoi
                                 WHERE Phim.IDPhim = '$IDPhim' ";
 $result_phim = $conn->query($sql_phim);
 
 if ($result_phim->num_rows > 0) {
     $row = $result_phim->fetch_assoc();
+    $IDMovie = $row['IDPhim'];
     $TenPhim = $row['TenPhim'];
     $DaoDien = $row['DaoDien'];
     $DienVien = $row["DienVien"];
     $TheLoai = $row["TenTheLoai"];
     $ThoiLuong = $row['ThoiLuong'];
     $MoTa = $row['MoTa'];
-    $Image = $row['Poster'];
+    $Image = $row['HinhAnh'];
+    $Dotuoi = $row['Dotuoi'];
 
 ?>
 
@@ -119,7 +122,7 @@ if ($result_phim->num_rows > 0) {
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="img/anime/details-pic.jpg">
+                        <div class="anime__details__pic set-bg" data-setbg="img/phim/<?php echo $Image ?>">
                         </div>
                     </div>
                     <div class="col-lg-9">
@@ -143,16 +146,17 @@ if ($result_phim->num_rows > 0) {
                                 <div class="row">
                                     <div class="col-lg-9 col-md-6">
                                         <ul>
-                                            <li><span>Diễn Viên:</span><?php echo $DienVien ?></li>
+                                            <li><span>Diễn viên:</span><?php echo $DienVien ?></li>
                                             <li><span>Thời lượng:</span> <?php echo $ThoiLuong ?> phút</li>
-                                            <li><span>Đạo Diễn:</span> <?php echo $DaoDien ?></li>
+                                            <li><span>Đạo diễn:</span> <?php echo $DaoDien ?></li>
                                             <li><span>Thể loại:</span><?php echo $TheLoai ?></li>
+                                            <li><span>Độ tuổi:</span><?php echo $Dotuoi ?></li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="follow-btn"><i class="fa fa-video-camera"></i> TRAILER</a>
+                                <a href="movie-trailer.php?IDPhim=<?php echo $IDPhim ?>" class="follow-btn"><i class="fa fa-video-camera"></i> TRAILER</a>
                                 <a href="#" class="watch-btn"><span>ĐẶT VÉ NGAY</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
@@ -164,7 +168,7 @@ if ($result_phim->num_rows > 0) {
                     <div class="col-lg-8 col-md-8">
                         <div class="anime__details__review">
                             <div class="section-title">
-                                <h5>Reviews</h5>
+                                <h5>CHI</h5>
                             </div>
                             <div class="anime__review__item">
                                 <div class="anime__review__item__pic">
