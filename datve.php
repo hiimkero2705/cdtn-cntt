@@ -9,42 +9,17 @@ while ($row_phim = mysqli_fetch_assoc($result_phim)) {
     $phimoption .= "<option value='" . $row_phim['IDPhim'] . "'>" . $row_phim['TenPhim'] . "</option>";
 }
 
+$sql_kv = "SELECT * FROM danhmuckhuvuc";
+$result_kv = mysqli_query($conn, $sql_kv);
+
+$khuvucoption = "";
+while ($row_kv = mysqli_fetch_assoc($result_kv)) {
+    $khuvucoption .= "<option value='" . $row_kv['IDKhuVuc'] . "'>" . $row_kv['TenKhuVuc'] . "</option>";
+}
+
 $sql_rap = "SELECT * FROM rap";
 $result_rap = mysqli_query($conn, $sql_rap);
 
-
-
-
-
-
-if (isset($_POST['submit'])) {
-
-
-    // Tạo mã phim tự động
-    $sql_ve = "SELECT MAX(CAST(SUBSTRING(IDVe,  5) AS SIGNED)) AS max_IDVe FROM Ve WHERE IDVe LIKE 'VE00%' AND CAST(SUBSTRING(IDVe,  5) AS SIGNED) > 7;";
-    $result_max_IDVe = $conn->query($sql_ve);
-    $row = $result_max_IDve->fetch_assoc();
-    $max_IDVe = $row["max_IDVe"]; //Tìm mã khách hàng lớn nhất
-    $next_IDVe = "VE" . str_pad($max_IDPhim + 1, 3, '0', STR_PAD_LEFT);
-
-
-    // Upload poster phim vào thư mục trên sserver
-
-
-    // Thêm dữ liệu vào cơ sở dữ liệu
-    // $sql = "INSERT INTO Phim (IDPhim, TenPhim, DaoDien, DienVien, IDTheLoai, ThoiLuong, MoTa, HinhAnh, IDDotuoi, Banner, Trailer) 
-    //         VALUES ('$next_IDPhim', '$tenPhim', '$daoDien', '$dienVien', '$theLoai', '$thoiLuong', '$moTa', '$posterPhim', '$doTuoi', '$banner', '$trailer')";
-
-    if (mysqli_query($conn, $sql)) {
-        $msg = '<div class="alert alert-success" role="alert">
-        Thêm thành công !
-    </div>';
-    } else {
-        $msg = '<div class="alert alert-danger" role="alert">
-        Thêm thất bại
-    </div>';
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="zxx">
@@ -103,10 +78,12 @@ if (isset($_POST['submit'])) {
 
         function updateRap() {
             var selectedPhim = $("#selectedPhimInput").val();
+            var selectedKhuVuc = $("#selectedKhuVucInput").val();
+
             $.ajax({
                 type: "POST",
                 url: "get_rapselection.php",
-                data: { phim: selectedPhim },
+                data: { phim: selectedPhim, khuvuc: selectedKhuVuc},
                 success: function (response) {
                     // Xóa tất cả các tùy chọn hiện có
                     $('.rapSelect').empty();
@@ -125,6 +102,7 @@ if (isset($_POST['submit'])) {
                 }
             });
         }
+
     </script>
     <!-- Signup Section Begin -->
     <div class="row">
@@ -134,29 +112,38 @@ if (isset($_POST['submit'])) {
                     <h5>Đặt Vé</h5>
                 </div>
                 <div>
-                    <form method="post" action="#">
+                    <form method="post" action="?page=chonghe">
                         <div class="mb-3">
                             <label for="phim" class="text-white">Phim</label>
                             <select class="form-select mb-3" name="phim" id="selectedPhimInput"
-                                aria-label="Default select example" onchange="updateRap()">
+                                aria-label="Default select example" onchange="updateRap()" required>
                                 <option value="">-----Chọn Phim-----</option>
                                 <?php echo $phimoption; ?>
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label for="khuvuc" class="text-white">Khu Vực</label>
+                            <select class="form-select mb-3" name="khuvuc" id="selectedKhuVucInput"
+                                aria-label="Default select example" onchange="updateRap()" required>
+                                <option value="">-----Chọn Khu Vực-----</option>
+                                <?php echo $khuvucoption; ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
                             <label for="rap" class="form-label text-white">Rạp</label>
                             <select class="form-select mb-3 rapSelect" name="rap" id="rapSelect"
-                                aria-label="Default select example" onchange="updateSuatChieu()">
+                                aria-label="Default select example" onchange="updateSuatChieu()" required>
 
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="suatchieu" class="form-label text-white">Suất Chiếu</label>
                             <select class="form-select mb-3 suatchieuSelect" name="suatchieu" id="suatchieuSelect"
-                                aria-label="Default select example">
+                                aria-label="Default select example" required>
 
                             </select>
                         </div>
+                        <button button type="submit" class="btn btn-primary">Tiếp Tục</button>
                     </form>
                 </div>
             </div>

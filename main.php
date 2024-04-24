@@ -34,7 +34,16 @@
         include 'datve.php';
     }elseif ($tam == 'chonghe') {
         include 'chonghe2.php';
-    }else {
+    }elseif ($tam == 'lichsudatve') {
+        include 'lichsudatve.php';
+    }elseif ($tam == 'chitietve') {
+        include 'chitietve.php';
+    }elseif ($tam == 'chitietthanhtoan') {
+        include 'chitietthanhtoan.php';
+    }elseif ($tam == 'camon') {
+        include 'camon.php';
+    }
+    else {
         include 'home.php';
     }
     ?>

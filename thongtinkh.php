@@ -1,11 +1,12 @@
 <?php
-if (!isset ($_SESSION['loggedin_customer'])) {
+if (!isset($_SESSION['loggedin_customer'])) {
     header('Location: ?page=login');
 }
 
-if (isset ($_SESSION['loggedin_customer'])) {
+if (isset($_SESSION['loggedin_customer'])) {
     $sql = "SELECT * FROM khachhang WHERE IDKH = '" . $_SESSION['IDKH'] . "'";
     $result = mysqli_query($conn, $sql);
+    $row = $result->fetch_assoc();
     if (mysqli_num_rows($result) > 0) {
         $info = mysqli_fetch_assoc($result);
         if (isset($_POST['doimk'])) { // Change to POST meth
@@ -46,7 +47,15 @@ if (isset ($_SESSION['loggedin_customer'])) {
         }
     }
 
-    if (isset ($_POST['capnhattt'])) {
+    if($row['bac'] == 1){
+        $ranking = "<img src='img/ranking/bronze.png' alt='bronze' style='width: 50px; height: 50px;'>";
+    }elseif($row['bac'] == 2){
+        $ranking = "<img src='img/ranking/silver.png' alt='silver'>";
+    }else{
+        $ranking = "<img src='img/ranking/gold.png' alt='gold'>";
+    }
+
+    if (isset($_POST['capnhattt'])) {
         $ho_ten = $_POST['name'];
         $email = $_POST['email'];
         $sdt = $_POST['phone'];
@@ -94,8 +103,33 @@ if (isset ($_SESSION['loggedin_customer'])) {
             </div>
         </div>
     </section>
+    <style>
+        .circle {
+            width: 100px;
+            height: 100px;
+            background-color: #007bff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+    </style>
     <!-- Normal Breadcrumb End -->
-
+    <div class="container mt-5">
+        <div class="d-flex justify-content-center">
+            <div class="circle">
+                <?php echo $ranking ?>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="progress w-50 mx-auto">
+        <div class="progress-bar" role="progressbar" aria-valuenow="<?php echo $row['diemtichluy'] ?>" aria-valuemin="0" aria-valuemax="100"
+            style="width:<?php echo $row['diemtichluy'] ?>%">
+        </div>
+    </div>
     <!-- Signup Section Begin -->
     <div class="row">
         <div class="p-5 col-lg-6 col-md-6 container">
@@ -107,21 +141,21 @@ if (isset ($_SESSION['loggedin_customer'])) {
                     <form method="post" action="#">
                         <div class="input__item">
                             <input type="text" placeholder="Địa chỉ email" name="email"
-                                value="<?php echo $info['Email']; ?>">
+                                value="<?php echo $row['Email']; ?>">
                             <span class="icon_mail"></span>
                         </div>
                         <div class="input__item">
-                            <input type="text" placeholder="Họ và tên" name="name"
-                                value="<?php echo $info['TenKH']; ?>">
+                            <input type="text" placeholder="Họ và tên" name="name" value="<?php echo $row['TenKH']; ?>">
                             <span class="icon_profile"></span>
                         </div>
                         <div class="input__item">
                             <input type="text" placeholder="Số điện thoại" name="phone"
-                                value="<?php echo $info['SDT']; ?>">
+                                value="<?php echo $row['SDT']; ?>">
                             <span class="icon_phone"></span>
                         </div>
                         <button type="submit" name="capnhattt" class="btn btn-success">Lưu</button>
                     </form>
+
                 </div>
             </div>
             <div class="anime__details__form">

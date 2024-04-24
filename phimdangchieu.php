@@ -23,9 +23,8 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__links">
-                        <a href="./index.php"><i class="fa fa-home"></i> Home</a>
-                        <a href="./categories.php">Categories</a>
-                        <span>Romance</span>
+                        <a href="?page=home"><i class="fa fa-home"></i> Trang chủ</a>
+                        <a href="?page=phimdangchieu">Phim đang chiếu</a>
                     </div>
                 </div>
             </div>
@@ -96,14 +95,14 @@ while ($row_phim = mysqli_fetch_array($result_phim)) {
                             ?>
                         </div>
                     </div>
-                    <div class="product__pagination">
+                    <!-- <div class="product__pagination">
                         <a href="#" class="current-page">1</a>
                         <a href="#">2</a>
                         <a href="#">3</a>
                         <a href="#">4</a>
                         <a href="#">5</a>
                         <a href="#"><i class="fa fa-angle-double-right"></i></a>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-8">
                     <div class="product__sidebar">

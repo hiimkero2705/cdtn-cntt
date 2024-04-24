@@ -14,17 +14,16 @@
                         <ul>
                             <li class="active"><a href="?page=home">Trang Chủ</a></li>
                             <li><a href="?page=phimdangchieu">Phim Đang Chiếu</a></li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="#">Contacts</a></li>
+                            <li><a href="./blog.html">Đặt Vé</a></li>
+                            <li><a href="#">Liên Hệ</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-3">
                     <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         Copyright &copy;
-                        <script>document.write(new Date().getFullYear());</script> All rights reserved | This template
-                        is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                            target="_blank">Colorlib</a>
+                        <script>document.write(new Date().getFullYear());</script> Cảm ơn <i class="fa fa-heart" aria-hidden="true"></i><a href="https://colorlib.com"
+                            target="_blank">Colorlib</a> đã hỗ trợ cho dự án này
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
 

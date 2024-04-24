@@ -1,5 +1,13 @@
 <?php
+session_start(); // Bắt đầu session
 
+if (isset($_SESSION['loggedin_customer']) && $_SESSION['loggedin_customer'] === true) {
+    // Người dùng đã đăng nhập
+    $userID = $_SESSION['IDKH']; // Lấy ID của người dùng đã đăng nhập
+    // Các mã lệnh khác bạn muốn thực hiện khi người dùng đã đăng nhập
+} else {
+    header('Location: signin.php');
+}
 include '../assets/connect.php';
 $sql_suatchieu = "SELECT * FROM suatchieu JOIN Phim ON suatchieu.IDPhim = Phim.IDPhim
                                 JOIN rap ON suatchieu.IDRap = rap.IDRap";
@@ -61,8 +69,8 @@ while ($row_suatchieu = mysqli_fetch_array($result_suatchieu)) {
         <!-- Sidebar Start -->
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
-                <a href="index.html" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>DarkPan</h3>
+                <a href="index.php" class="navbar-brand mx-4 mb-3">
+                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>AdminPages</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -72,32 +80,39 @@ while ($row_suatchieu = mysqli_fetch_array($result_suatchieu)) {
                         </div>
                     </div>
                     <div class="ms-3">
-                        <h6 class="mb-0">Jhon Doe</h6>
+                        <h6 class="mb-0">Hehe</h6>
                         <span>Admin</span>
                     </div>
                 </div>
                 <div class="navbar-nav w-100">
-                    <a href="index.html" class="nav-item nav-link"><i
-                            class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
+                    <a href="index.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Thống
+                        kê</a>
+                    <a href="listhoadon.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Hóa
+                        Đơn</a>
+                        <a href="listkh.php" class="nav-item nav-link"><i class="fa fa-tachometer-alt me-2"></i>Khách Hàng</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
-                                class="fa fa-laptop me-2"></i>Elements</a>
-                        <div class="dropdown-menu bg-transparent border-0">
-                            <a href="button.html" class="dropdown-item">Buttons</a>
-                            <a href="typography.html" class="dropdown-item">Typography</a>
-                            <a href="element.html" class="dropdown-item">Other Elements</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
                                 class="fa fa-video me-2"></i>Phim</a>
                         <div class="dropdown-menu bg-transparent border-0">
                             <a href="listphim.php" class="dropdown-item">Danh sách phim</a>
                             <a href="themphim.php" class="dropdown-item">Thêm phim</a>
                         </div>
                     </div>
-                    <a href="widget.html" class="nav-item nav-link"><i class="fa fa-th me-2"></i>Widgets</a>
-                    <a href="chart.html" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Charts</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown"><i
+                                class="fa fa-calendar me-2"></i>Suất Chiếu</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="listsuatchieu.php" class="dropdown-item">Danh sách suất chiếu</a>
+                            <a href="themsuatchieu.php" class="dropdown-item">Thêm suất chiếu</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
+                                class="fa fa-book me-2"></i>Vé Đã Đặt</a>
+                        <div class="dropdown-menu bg-transparent border-0">
+                            <a href="listve.php" class="dropdown-item">Danh sách Vé</a>
+                        </div>
+                    </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i
                                 class="far fa-file-alt me-2"></i>Pages</a>
@@ -124,86 +139,15 @@ while ($row_suatchieu = mysqli_fetch_array($result_suatchieu)) {
                 <a href="#" class="sidebar-toggler flex-shrink-0">
                     <i class="fa fa-bars"></i>
                 </a>
-                <form class="d-none d-md-flex ms-4">
-                    <input class="form-control bg-dark border-0" type="search" placeholder="Search">
-                </form>
                 <div class="navbar-nav align-items-center ms-auto">
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-envelope me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Message</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt=""
-                                        style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt=""
-                                        style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <div class="d-flex align-items-center">
-                                    <img class="rounded-circle" src="img/user.jpg" alt=""
-                                        style="width: 40px; height: 40px;">
-                                    <div class="ms-2">
-                                        <h6 class="fw-normal mb-0">Jhon send you a message</h6>
-                                        <small>15 minutes ago</small>
-                                    </div>
-                                </div>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all message</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                            <i class="fa fa-bell me-lg-2"></i>
-                            <span class="d-none d-lg-inline-flex">Notificatin</span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Profile updated</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">New user added</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item">
-                                <h6 class="fw-normal mb-0">Password changed</h6>
-                                <small>15 minutes ago</small>
-                            </a>
-                            <hr class="dropdown-divider">
-                            <a href="#" class="dropdown-item text-center">See all notifications</a>
-                        </div>
-                    </div>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                             <img class="rounded-circle me-lg-2" src="img/user.jpg" alt=""
                                 style="width: 40px; height: 40px;">
-                            <span class="d-none d-lg-inline-flex">John Doe</span>
+                            <span class="d-none d-lg-inline-flex">Admin</span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end bg-secondary border-0 rounded-0 rounded-bottom m-0">
-                            <a href="#" class="dropdown-item">My Profile</a>
-                            <a href="#" class="dropdown-item">Settings</a>
-                            <a href="#" class="dropdown-item">Log Out</a>
+                            <a href="logout.php" class="dropdown-item">Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -219,7 +163,7 @@ while ($row_suatchieu = mysqli_fetch_array($result_suatchieu)) {
                             <h2 class="mb-4 text-center">Danh sách phim công chiếu</h2>
                             <div class="text-end">
                                 <button type="button" class="btn btn-success m-2"
-                                    onclick="window.location.href='themphim.php'">Thêm phim</button>
+                                    onclick="window.location.href='themsuatchieu.php'">Thêm suất</button>
                             </div>
                             <div class="table-responsive">
                                 <table class="table">
@@ -252,7 +196,7 @@ while ($row_suatchieu = mysqli_fetch_array($result_suatchieu)) {
                                                     <?php echo $suatchieu['TenRap']; ?>
                                                 </td>
                                                 <td>
-                                                <a href="chinhsua.php?idPhim=<?php echo $phim['IDPhim']; ?>" class="btn btn-square btn-outline-warning m-2"><i class="fa fa-wrench"></i></a>
+                                                <a href="chinhsuasuatchieu.php?idSuat=<?php echo $suatchieu['IDSuat']; ?>" class="btn btn-square btn-outline-warning m-2"><i class="fa fa-wrench"></i></a>
                                                 <a href="xoaphim.php?idPhim=<?php echo $phim['IDPhim']; ?>" class="btn btn-square btn-outline-danger m-2"><i class="fa fa-trash"></i></a>
                                                 </td>
                                             </tr>

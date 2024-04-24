@@ -73,9 +73,9 @@ if (isset($_GET['IDPhim'])) {
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="breadcrumb__links">
-                                <a href="./index.php"><i class="fa fa-home"></i> Home</a>
-                                <a href="./categories.php">Categories</a>
-                                <span>Romance</span>
+                                <a href="?page=home"><i class="fa fa-home"></i> Trang chủ</a>
+                                <a href="?page=phimdangchieu">Phim đang chiếu</a>
+                                <span><?php echo $TenPhim ?></span>
                             </div>
                         </div>
                     </div>
@@ -141,7 +141,7 @@ if (isset($_GET['IDPhim'])) {
                                     <div class="anime__details__btn">
                                         <a href="?page=trailerphim&IDPhim=<?php echo $IDPhim ?>" class="follow-btn"><i
                                                 class="fa fa-video-camera"></i> TRAILER</a>
-                                        <a href="#" class="watch-btn"><span>ĐẶT VÉ NGAY</span> <i
+                                        <a href="?page=datve" class="watch-btn"><span>ĐẶT VÉ NGAY</span> <i
                                                 class="fa fa-angle-right"></i></a>
                                     </div>
                                 </div>

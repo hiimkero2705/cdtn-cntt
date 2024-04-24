@@ -3,11 +3,17 @@ include 'assets/connect.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $phimid = $_POST['phim'];
+    // $khuvucid = $_POST['khuvuc'];
+    $khuvucid = isset($_POST['khuvuc']) ? $_POST['khuvuc'] : null;
+    $khuvuc_condition = "";
+    if ($khuvucid !== null) {
+        $khuvuc_condition = "AND IDKhuVuc = '$khuvucid'";
+    }
 
     $sql_rap = "SELECT DISTINCT rap.IDRap, rap.TenRap 
             FROM suatchieu 
             JOIN rap ON suatchieu.IDRap = rap.IDRap
-            WHERE IDPhim = '$phimid'";
+            WHERE IDPhim = '$phimid' $khuvuc_condition";
             
     $result_rap = $conn->query($sql_rap);
    
@@ -18,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         echo $optionrap;
     } else {
-        echo "<option value=''>Không có rạp nào đang chiếu</option>";
+        
     }
 }
 ?>

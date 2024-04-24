@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         echo $optionsuatchieu;
     } else {
-        echo "<option value=''>Không có suất chiếu</option>";
+       
     }
 }
 ?>

@@ -17,7 +17,7 @@ if (isset($_SESSION['loggedin_customer'])) {
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
@@ -27,22 +27,30 @@ if (isset($_SESSION['loggedin_customer'])) {
                                         <li><a href="?page=phimdangchieu">Đang công chiếu</a></li>
                                         <li><a href="./anime-watching.php">Anime Watching</a></li>
                                         <li><a href="./blog-details.php">Blog Details</a></li>
-                                        <li><a href="./login.php">Đăng Nhập</a></li>
+                                        <li>
+                                            <?php 
+                                            if(isset($_SESSION['loggedin_customer']) && $_SESSION['loggedin_customer'] === true){
+                                                if($info['VaiTro'] == "ADMIN"){
+                                                    echo '<a href="./admin/index.php">Trang Quản Lý</a>';
+                                                }
+                                            }
+                                            ?>
+                                        </li>
                                     </ul>
                                 </li>
-                                <li><a href="./blog.php">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
+                                <li><a href="?page=datve">Đặt vé</a></li>
+                                <li><a href="#">Liên hệ</a></li>
                             </ul>
                         </nav>
                     </div>
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-4">
                     <div class="header__right">
                         <?php 
                         if (isset($_SESSION['loggedin_customer']) && $_SESSION['loggedin_customer'] === true) {
                             echo '<a href="?page=thongtinkh"><span class="icon_profile"></span>' . $info['TenKH'] . '</a>
                             <a href="./confirm-logout.php"><span class="fa fa-sign-out"></span></a>
-                            <a href="#"><span class="fa fa-history"></span></a>';
+                            <a href="?page=lichsudatve"><span class="fa fa-history"></span></a>';
                         } else {
                             echo '<a href="?page=login"><span class="icon_profile"></span></a>';
                         } ?>

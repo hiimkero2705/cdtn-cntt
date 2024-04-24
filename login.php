@@ -1,5 +1,8 @@
 
 <?php
+
+include 'logingoogle.php';
+
 if (isset($_POST['submit-login'])) {
     $input_email = $_POST['input_email'];
     $input_password = $_POST['input_password'];
@@ -13,10 +16,7 @@ if (isset($_POST['submit-login'])) {
             $hashedPassword = $row['Password'];
 
             if (password_verify($input_password, $hashedPassword)) {
-                $_SESSION['loggedin_customer'] = true; // Lưu trạng thái đăng nhập
-                // if (!isset($_SESSION['cart'][$row['MaKH']])) {
-                //     $_SESSION['cart'][$row['MaKH']] = array();
-                // }
+                $_SESSION['loggedin_customer'] = true;
                 $_SESSION['IDKH'] = $row['IDKH'];
                 header("Location: index.php");
             } else {
@@ -29,6 +29,7 @@ if (isset($_POST['submit-login'])) {
         echo "Lỗi truy vấn: " . mysqli_error($conn);
     }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +96,7 @@ if (isset($_POST['submit-login'])) {
                             <ul>
                                 <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
                                         Facebook</a></li>
-                                <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
+                                <li><a href="<?php echo $client->createAuthUrl() ?>" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
                                 <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
                                 </li>
                             </ul>
